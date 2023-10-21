@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<title>Sekai Directory : 프로젝트 세카이 관련 주요 생일/기념일 일람</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css" href="./common/css/w3.css" />
+<link rel="stylesheet" type="text/css" href="./common/css/projectsekai.css" />
+<link rel="stylesheet" type="text/css" href="./common/css/pageload.css" />
+<script type="text/javascript" src="./common/js/common.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="./common/js/prsk_anniversaries.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pace-js@latest/pace.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+ toggleFilterMode();
+ highlightToday();
+ dispDateNow();
+ displayWeekdayYearNow();
+ displayAnniversaryYearCount();
+ setInterval("dispDateNow();",200);
+ setInterval("highlightToday();",200);
+
+ var dateNow = new Date();
+ var hoursNow = dateNow.getHours();
+ var minsNow = dateNow.getMinutes();
+ var secsNow = dateNow.getSeconds();
+ 
+ if(hoursNow == 0 && minsNow == 0 && secsNow == 0){highlightToday();}
+});
+</script>
+<!-- 이 페이지는 최신버전의 모던 웹 브라우저(크롬, 엣지, 파이어폭스 등)에 최적화되어 있습니다. -->
+</head>
+<body class="page-background">
+
+<div class="w3-content">
+ <header class="w3-center w3-padding-large">
+  <h2 class="w3-xlarge" style="font-weight: bold;">프로젝트 세카이 관련 주요 생일/기념일 일람</h2>
+ </header>
+</div>
+
+<div id="layer_today">
+ <div id="anniversaries_today"></div>
+</div>
+
+<ul>
+ <li>주: 아래의 목록은 국내 팬덤 실정 등에 맞게 작성되었으며, 각 항목은 확인되는 대로 업데이트됩니다.</li>
+ <li>각 날짜에 표시된 요일은 현재 년도(<span id="year_now"></span>) 기준입니다.</li>
+ <li>아래 목록에서 VOCALOID의 생일은 특별한 경우가 아닌 이상 프로젝트 세카이에 '캐릭터'(<span class="t_vs">VIRTUAL SINGER</span>)로서 출연한 경우(피아프로/크립톤 퓨처 미디어 계열)만 표기하였습니다.<br />다만 프로젝트 세카이 게임 내에서는 이들 이외에도 <b>다양한 VOCALOID 캐릭터를 기반으로 하는 악곡들</b>이 원곡 기준 'VIRTUAL SINGER 버전'으로서 수록되어 있으니, 참고용으로만 사용하시길 당부드립니다.</li>
+</ul>
+
+<h6 id="date_now"></h6>
+
+<div id="container_filter" style="font-size: 1.2em;">
+
+ <div id="filter_series" style="padding-left: 1em;">
+  <input type="radio" name="filter_mode" id="filter_cboxes" checked="checked" onchange="toggleFilterMode();" />&nbsp;<label for="filter_cboxes">그룹 및 범주 선택:</label>
+  <br />
+  <span style="font-size: 0.875em;"><b>그룹:</b>&nbsp;</span>
+  <input type="checkbox" name="output_filter" id="display_vs" value="vs" checked="checked" onchange="refreshFilter();" />&nbsp;<label class="t_vs" for="display_vs">VIRTUAL SINGER</label>&nbsp;
+  <input type="checkbox" name="output_filter" id="display_ln" value="ln" checked="checked" onchange="refreshFilter();" />&nbsp;<label class="t_ln" for="display_ln">💫🎸Leo/need</label>&nbsp;
+  <input type="checkbox" name="output_filter" id="display_mj" value="mj" checked="checked" onchange="refreshFilter();" />&nbsp;<label class="t_mj" for="display_mj">☘️🐧MORE MORE JUMP!</label>&nbsp;
+  <input type="checkbox" name="output_filter" id="display_vb" value="vb" checked="checked" onchange="refreshFilter();" />&nbsp;<label class="t_vb" for="display_vb">💿🎤Vivid BAD SQUAD</label>&nbsp;
+  <input type="checkbox" name="output_filter" id="display_ws" value="ws" checked="checked" onchange="refreshFilter();" />&nbsp;<label class="t_ws" for="display_ws">👑🎡원더랜즈×쇼타임</label>&nbsp;
+  <input type="checkbox" name="output_filter" id="display_nc" value="nc" checked="checked" onchange="refreshFilter();" />&nbsp;<label class="t_nc" for="display_nc">🎧🖥️25시, 나이트코드에서.</label>&nbsp;
+  <input type="checkbox" name="output_filter" id="display_sk" value="sk" checked="checked" onchange="refreshFilter();" />&nbsp;<label for="display_sk">전 그룹</label>
+  <input type="checkbox" name="output_filter" id="display_etc" value="etc" checked="checked" onchange="refreshFilter();" />&nbsp;<label for="display_etc">기타</label>
+ </div>
+ <div id="filter_types" style="padding-left: 1em;">
+  <span style="font-size: 0.875em;"><b>범주:</b>&nbsp;</span>
+  <input type="checkbox" name="output_filter" id="display_charas" value="chara" checked="checked" onchange="refreshFilter();" />&nbsp;<label for="display_charas">캐릭터 생일(기념일)</label>&nbsp;
+  <input type="checkbox" name="output_filter" id="display_voices" value="voices" checked="checked" onchange="refreshFilter();" />&nbsp;<label for="display_voices">성우 생일</label>&nbsp;
+  <input type="checkbox" name="output_filter" id="display_celebrations" value="anniv" checked="checked" onchange="refreshFilter();" />&nbsp;<label for="display_celebrations">각종 기념일</label>
+ </div>
+ <div id="filter_keyword" style="padding-left: 1em;">
+  <input type="radio" name="filter_mode" id="filter_keywords" onchange="toggleFilterMode();" />&nbsp;<label for="filter_keywords">키워드로 검색:</label>&nbsp;<input type="text" name="keyword_filter" id="keywords" size="22" maxlength="64" placeholder="(예: 미쿠, 이치카)" style="font-size: 14px;" onchange="keywordFilter();" />
+  <sub>(찾고자 하는 캐릭터/인물 이름, 기타 키워드 등으로 검색할 수 있습니다)</sub>
+ </div>
+</div>
+
+<div id="view_month">[<a href="javascript:void(0);" onclick="moveToMonthNow();">이번달 일정 살펴보기</a>] [<a href="javascript:void(0);" onclick="moveToToday();">오늘의 생일/기념일</a>]</div>
+
+<div id="date_list">
+
+<h3 class="w3-large monthlyheader"><a id="scroll_month_1" name="month_1">1월</a></h3>
+
+<ul class="i_date" id="d_108" style="display: list-item;">
+ <li>1월 8일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_ln" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_shiho">히노모리 시호</span> (<span class="t_ln">Leo/need</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_117" style="display: list-item;">
+ <li>1월 17일 <span class="i_weekday"></span>
+  <ul class="i_list">
+   <li class="voices_ln" data-birthyear="1994" style="display: list-item;"><b>성우 생일:</b> 우에다 레이나 (<span class="c_chara_honami">모치즈키 호나미</span> 역, 1994년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_127" style="display: list-item;">
+ <li>1월 27일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_nc" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_yuki_mafuyu">아사히나 마후유</span> (<span class="t_nc">25시, 나이트코드에서.</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_130" style="display: list-item;">
+ <li>1월 30일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_vs" data-birthyear="2009" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_luka">메구리네 루카</span> (<span class="t_vs">VIRTUAL SINGER</span><span class="age_now"></span>)</li>
+    <li class="voices_sk voices_vs" data-birthyear="1986" style="display: list-item;"><b>성우 생일:</b> 시모다 아사미 (<span class="c_chara_rin">카가미네 린</span> 및 <span class="c_chara_len">카가미네 렌</span>의 보이스 제공, 1986년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<h3 class="w3-large monthlyheader"><a id="scroll_month_2" name="month_2">2월</a></h3>
+
+<ul class="i_date" id="d_204" style="display: list-item;">
+ <li>2월 4일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="voices_mj" data-birthyear="1993" style="display: list-item;"><b>성우 생일:</b> 혼이즈미 리나 (<span class="c_chara_shizuku">히노모리 시즈쿠</span> 역, 1993년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_210" style="display: list-item;">
+ <li>2월 10일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_nc" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_k_kanade">요이사키 카나데</span> (<span class="t_nc">25시, 나이트코드에서.</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_212" style="display: list-item;">
+ <li>2월 12일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="voices_ws" data-birthyear="1997" style="display: list-item;"><b>성우 생일:</b> 키노 히나 (<span class="c_chara_emu">오오토리 에무</span> 역, 1997년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_217" style="display: list-item;">
+ <li>2월 17일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_vs" data-birthyear="2006" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_kaito">KAITO</span> (<span class="t_vs">VIRTUAL SINGER</span><span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_219" style="display: list-item;">
+ <li>2월 19일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="voices_mj" data-birthyear="1994" style="display: list-item;"><b>성우 생일:</b> 후리하타 아이 (<span class="c_chara_airi">모모이 아이리</span> 역, 1994년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<h3 class="w3-large monthlyheader"><a id="scroll_month_3" name="month_3">3월</a></h3>
+
+<ul class="i_date" id="d_302" style="display: list-item;">
+ <li>3월 2일 <span class="i_weekday"></span>
+  <ul class="i_list">
+   <li class="chara_vb" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_kohane">아즈사와 코하네</span> (<span class="t_vb">Vivid BAD SQUAD</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_319" style="display: list-item;">
+ <li>3월 19일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_mj" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_airi">모모이 아이리</span> (<span class="t_mj">MORE MORE JUMP!</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_320" style="display: list-item;">
+ <li>3월 20일 <span class="i_weekday"></span>
+  <ul class="i_list">
+   <li class="voices_sk voices_vs" data-birthyear="1975" style="display: list-item;"><b>성우 생일:</b> 아사카와 유우 (<span class="c_chara_luka">메구리네 루카</span>의 보이스 제공, 1975년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_325" style="display: list-item;">
+ <li>3월 25일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="voices_ws" data-birthyear="1992" style="display: list-item;"><b>성우 생일:</b> Machico (<span class="c_chara_nene">쿠사나기 네네</span> 역, 1992년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<h3 class="w3-large monthlyheader"><a id="scroll_month_4" name="month_4">4월</a></h3>
+
+<ul class="i_date" id="d_414" style="display: list-item;">
+ <li>4월 14일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_mj" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_minori">하나사토 미노리</span> (<span class="t_mj">MORE MORE JUMP!</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_430" style="display: list-item;">
+ <li>4월 30일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_nc" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_enanan_ena">시노노메 에나</span> (<span class="t_nc">25시, 나이트코드에서.</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<h3 class="w3-large monthlyheader"><a id="scroll_month_5" name="month_5">5월</a></h3>
+
+<ul class="i_date" id="d_506" style="display: list-item;">
+ <li>5월 6일 <span class="i_weekday"></span>
+  <ul class="i_list">
+   <li class="voices_sk voices_vs" data-birthyear="1978" style="display: list-item;"><b>성우 생일:</b> 하이고 메이코 (<span class="c_chara_meiko">MEIKO</span>의 보이스 제공, 1978년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_507" style="display: list-item;">
+ <li>5월 7일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="voices_ws" data-birthyear="1989" style="display: list-item;"><b>성우 생일:</b> 토키 슌이치 (<span class="c_chara_rui">카미시로 루이</span> 역, 1989년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_509" style="display: list-item;">
+ <li>5월 9일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_ln" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_saki">텐마 사키</span> (<span class="t_ln">Leo/need</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_517" style="display: list-item;">
+ <li>5월 17일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_ws" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_tsukasa">텐마 츠카사</span> (<span class="t_ws">원더랜즈×쇼타임</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_520" style="display: list-item;">
+ <li>5월 20일 <span class="i_weekday"></span>
+  <ul class="i_list">
+   <li class="anniv_sk" data-foundyear="2022" style="display: list-item;"><b>기념일:</b> [프로젝트 세카이] 게임 한국어판 런칭일 (2022년<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_523" style="display: list-item;">
+ <li>5월 23일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="voices_nc" data-birthyear="1997" style="display: list-item;"><b>성우 생일:</b> 타나베 루이 (<span class="c_chara_yuki_mafuyu">아사히나 마후유</span> 역, 1997년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_525" style="display: list-item;">
+ <li>5월 25일 <span class="i_weekday"></span>
+  <ul class="i_list">
+   <li class="chara_vb" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_touya">아오야기 토우야</span> (<span class="t_vb">Vivid BAD SQUAD</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_526" style="display: list-item;">
+ <li>5월 26일 <span class="i_weekday"></span>
+  <ul class="i_list">
+   <li class="voices_ln" data-birthyear="1994" style="display: list-item;"><b>성우 생일:</b> 이소베 카린 (<span class="c_chara_saki">텐마 사키</span> 역, 1994년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+
+<h3 class="w3-large monthlyheader"><a id="scroll_month_6" name="month_6">6월</a></h3>
+
+<ul class="i_date" id="d_603" style="display: list-item;">
+ <li>6월 3일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="voices_ws" data-birthyear="1991" style="display: list-item;"><b>성우 생일:</b> 히로세 다이스케 (<span class="c_chara_tsukasa">텐마 츠카사</span> 역, 1991년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_624" style="display: list-item;">
+ <li>6월 24일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_ws" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_rui">카미시로 루이</span> (<span class="t_ws">원더랜즈×쇼타임</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<h3 class="w3-large monthlyheader"><a id="scroll_month_7" name="month_7">7월</a></h3>
+
+
+<ul class="i_date" id="d_706" style="display: list-item;">
+ <li>7월 6일 <span class="i_weekday"></span>
+  <ul class="i_list">
+   <li class="voices_ln" data-birthyear="1995" style="display: list-item;"><b>성우 생일:</b> 노구치 루리코 (<span class="c_chara_ichika">호시노 이치카</span> 역, 1995년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_720" style="display: list-item;">
+ <li>7월 20일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_ws" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_nene">쿠사나기 네네</span> (<span class="t_ws">원더랜즈×쇼타임</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_726" style="display: list-item;">
+ <li>7월 26일 <span class="i_weekday"></span>
+  <ul class="i_list">
+   <li class="chara_vb" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_an">시라이시 안</span> (<span class="t_vb">Vivid BAD SQUAD</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<h3 class="w3-large monthlyheader"><a id="scroll_month_8" name="month_8">8월</a></h3>
+
+
+<ul class="i_date" id="d_811" style="display: list-item;">
+ <li>8월 11일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_ln" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_ichika">호시노 이치카</span> (<span class="t_ln">Leo/need</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_815" style="display: list-item;">
+ <li>8월 15일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="voices_mj" data-birthyear="1995" style="display: list-item;"><b>성우 생일:</b> 오구라 유이 (<span class="c_chara_minori">하나사토 미노리</span> 역, 1995년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_827" style="display: list-item;">
+ <li>8월 27일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_nc" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_amia_mizuki">아키야마 미즈키</span> (<span class="t_nc">25시, 나이트코드에서.</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+
+<ul class="i_date" id="d_831" style="display: list-item;">
+ <li>8월 31일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_vs" data-birthyear="2007" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_miku">하츠네 미쿠</span> (<span class="t_vs">VIRTUAL SINGER</span><span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+
+<h3 class="w3-large monthlyheader"><a id="scroll_month_9" name="month_9">9월</a></h3>
+
+<ul class="i_date" id="d_905" style="display: list-item;">
+ <li>9월 5일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="voices_vb" data-birthyear="1994" style="display: list-item;"><b>성우 생일:</b> 스미 토모미 제나 (<span class="c_chara_an">시라이시 안</span> 역, 1994년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_909" style="display: list-item;">
+ <li>9월 9일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_ws" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_emu">오오토리 에무</span> (<span class="t_ws">원더랜즈×쇼타임</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_912" style="display: list-item;">
+ <li>9월 12일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="voices_ln" data-birthyear="1997" style="display: list-item;"><b>성우 생일:</b> 나카시마 유키 (<span class="c_chara_shiho">히노모리 시호</span> 역, 1997년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_917" style="display: list-item;">
+ <li>9월 17일 <span class="i_weekday"></span>
+  <ul class="i_list">
+   <li class="voices_sk voices_vs" style="display: list-item;"><b>성우 생일:</b> 후우가 나오토 (<span class="c_chara_kaito">KAITO</span>의 보이스 제공, 생년 불명)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_930" style="display: list-item;">
+ <li>9월 30일 <span class="i_weekday"></span>
+  <ul class="i_list">
+   <li class="anniv_sk" data-foundyear="2020" style="display: list-item;"><b>기념일:</b> <b>[프로젝트 세카이] 게임 런칭일</b> (일본판 기준, 2020년<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<h3 class="w3-large monthlyheader"><a id="scroll_month_10" name="month_10">10월</a></h3>
+
+<ul class="i_date" id="d_1001" style="display: list-item;">
+ <li>10월 1일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="voices_nc" data-birthyear="1997" style="display: list-item;"><b>성우 생일:</b> 스즈키 미노리 (<span class="c_chara_enanan_ena">시노노메 에나</span> 역, 1997년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_1005" style="display: list-item;">
+ <li>10월 5일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_mj" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_haruka">키리타니 하루카</span> (<span class="t_mj">MORE MORE JUMP!</span>)</li>
+    <li class="voices_vb" data-birthyear="1997" style="display: list-item;"><b>성우 생일:</b> 이마이 후미야 (<span class="c_chara_akito">시노노메 아키토</span> 역, 1997년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_1019" style="display: list-item;">
+ <li>10월 19일 <span class="i_weekday"></span>
+  <ul class="i_list">
+   <li class="voices_sk voices_vs" data-birthyear="1984" style="display: list-item;"><b>성우 생일:</b> 후지타 사키 (<span class="c_chara_miku">하츠네 미쿠</span>의 보이스 제공, 1984년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_1018" style="display: list-item;">
+ <li>10월 18일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="voices_vb" data-birthyear="1988" style="display: list-item;"><b>성우 생일:</b> 이토 켄토 (<span class="c_chara_touya">아오야기 토우야</span> 역, 1988년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_1027" style="display: list-item;">
+ <li>10월 27일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_ln" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_honami">모치즈키 호나미</span> (<span class="t_ln">Leo/need</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<h3 class="w3-large monthlyheader"><a id="scroll_month_11" name="month_11">11월</a></h3>
+
+<ul class="i_date" id="d_1102" style="display: list-item;">
+ <li>11월 2일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="voices_vb" data-birthyear="1995" style="display: list-item;"><b>성우 생일:</b> 아키나 (<span class="c_chara_kohane">아즈사와 코하네</span> 역, 1995년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_1105" style="display: list-item;">
+ <li>11월 5일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_vs" data-birthyear="2004" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_meiko">MEIKO</span> (<span class="t_vs">VIRTUAL SINGER</span><span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_1107" style="display: list-item;">
+ <li>11월 7일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="voices_mj" data-birthyear="1995" style="display: list-item;"><b>성우 생일:</b> 요시오카 마유 (<span class="c_chara_haruka">키리타니 하루카</span> 역, 1995년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_1112" style="display: list-item;">
+ <li>11월 12일 <span class="i_weekday"></span>
+  <ul class="i_list">
+   <li class="chara_vb" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_akito">시노노메 아키토</span> (<span class="t_vb">Vivid BAD SQUAD</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<h3 class="w3-large monthlyheader"><a id="scroll_month_12" name="month_12">12월</a></h3>
+
+<ul class="i_date" id="d_1206" style="display: list-item;">
+ <li>12월 6일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_mj" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_shizuku">히노모리 시즈쿠</span> (<span class="t_mj">MORE MORE JUMP!</span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_1207" style="display: list-item;">
+ <li>12월 7일 <span class="i_weekday"></span>
+  <ul class="i_list">
+   <li class="anniv_sk" data-foundyear="2021" style="display: list-item;"><b>기념일:</b> [프로젝트 세카이] 게임 글로벌판 런칭일 (2021년<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_1222" style="display: list-item;">
+ <li>12월 22일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="voices_nc" data-birthyear="1999" style="display: list-item;"><b>성우 생일:</b> 쿠스노키 토모리 (<span class="c_chara_k_kanade">요이사키 카나데</span> 역, 1999년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_1223" style="display: list-item;">
+ <li>12월 23일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="voices_nc" data-birthyear="1998" style="display: list-item;"><b>성우 생일:</b> 사토 히나타 (<span class="c_chara_amia_mizuki">아키야마 미즈키</span> 역, 1998년생<span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+<ul class="i_date" id="d_1227" style="display: list-item;">
+ <li>12월 27일 <span class="i_weekday"></span>
+  <ul class="i_list">
+    <li class="chara_vs" data-birthyear="2007" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_rin">카가미네 린</span> (<span class="t_vs">VIRTUAL SINGER</span><span class="age_now"></span>)</li>
+    <li class="chara_vs" data-birthyear="2007" style="display: list-item;"><b>캐릭터 생일(기념일):</b> <span class="c_chara_len">카가미네 렌</span> (<span class="t_vs">VIRTUAL SINGER</span><span class="age_now"></span>)</li>
+  </ul>
+ </li>
+</ul>
+
+</div>
+
+<div id="page_disclaimer" style="text-align: center; padding: 1em; margin: auto;">
+ <b>면책 조항</b>: 이 페이지는 <a href="https://www.sega.co.jp/en/">세가(SEGA)</a> 및 <a href="https://colorfulpalette.co.jp/">Colorful Palette</a>(모회사 <a href="https://www.craftegg.co.jp/">Craft Egg</a>), <a href="https://www.nvsgames.com/">Nuverse</a>, 그리고 VOCALOID 계열의 각 제작사와 <b>직접적 연관이 없으며, 작성자는 이 페이지를 통해 그 어떠한 금전적 이득도 취하고 있지 않습니다.</b><br />
+ &quot;프로젝트 세카이&quot;, &quot;Project SEKAI&quot; 및 관련 상표/공식 컨텐츠는 대한민국 및 일본, 그 외 국가에서 세가(SEGA)의 재산입니다.
+</div>
+
+<div id="author_footer">Always made with <i style="color:#FF69B4;" class="fas fa-heart"></i> by <a href="https://rina.pe.kr">Rina</a></div>
+</body>
+</html>

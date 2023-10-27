@@ -205,7 +205,7 @@ list-style-type: none;
 /* 멤버별 이미지 컬러 */
 
 /* 가독성 향상 */
-span[class^="c_chara"],span[class^="t_"]{
+span[class^="c_chara"],span[class^="t_"],label{
 width: auto;
 height: auto;
 border-radius: 6px;
